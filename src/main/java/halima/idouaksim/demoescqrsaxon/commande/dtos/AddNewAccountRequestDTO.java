@@ -1,4 +1,4 @@
 package halima.idouaksim.demoescqrsaxon.commande.dtos;
 
-public record AddNewAccountRequestDTO(double initialBalance, String username, String currency) {
+public record AddNewAccountRequestDTO(double initialBalance, String currency) {
 }
