@@ -13,6 +13,7 @@ import org.axonframework.spring.stereotype.Aggregate;
 @Aggregate
 @Slf4j
 public class AccountAggregate {
+    @AggregateIdentifier
     private String accountId;
 
     private double balance;
