@@ -15,3 +15,13 @@ h2-console
 
 table domain_event_entry
 ![img_6.png](img_6.png)
+
+postgres docker compose
+![img_7.png](img_7.png)
+![img_8.png](img_8.png)
+
+postgres integration in intellij
+![img_9.png](img_9.png)
+
+postgres test
+![img_10.png](img_10.png)
