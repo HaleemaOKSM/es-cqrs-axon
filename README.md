@@ -25,3 +25,6 @@ postgres integration in intellij
 
 postgres test
 ![img_10.png](img_10.png)
+
+serialization test
+![img_11.png](img_11.png)
