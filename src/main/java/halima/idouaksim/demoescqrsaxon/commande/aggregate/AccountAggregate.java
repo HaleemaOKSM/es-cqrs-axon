@@ -56,6 +56,13 @@ public class AccountAggregate {
         this.status = event.getAccountStatus();
     }
 
+    @EventSourcingHandler
+    public void on(AccountActivatedEvent event) {
+        log.info("############3 AccountActivatedEvent occured");
+        this.accountId = event.getAccountId();
+        this.status = event.getAccountStatus();
+    }
+
     @CommandHandler
     public void handel(CreditAccountCommand command) {
         //fonction de decision
