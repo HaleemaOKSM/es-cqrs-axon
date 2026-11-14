@@ -2,10 +2,12 @@ package halima.idouaksim.demoescqrsaxon.commande.aggregate;
 
 import halima.idouaksim.demoescqrsaxon.commande.commands.AddAccountCommand;
 import halima.idouaksim.demoescqrsaxon.commande.commands.CreditAccountCommand;
+import halima.idouaksim.demoescqrsaxon.commande.commands.DebitAccountCommand;
 import halima.idouaksim.demoescqrsaxon.enums.AccountStatus;
 import halima.idouaksim.demoescqrsaxon.events.AccountActivatedEvent;
 import halima.idouaksim.demoescqrsaxon.events.AccountCreatedEvent;
 import halima.idouaksim.demoescqrsaxon.events.AccountCreditedEvent;
+import halima.idouaksim.demoescqrsaxon.events.AccountDebitedEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -64,7 +66,7 @@ public class AccountAggregate {
     }
 
     @CommandHandler
-    public void handel(CreditAccountCommand command) {
+    public void handle(CreditAccountCommand command) {
         //fonction de decision
         log.info("############3 CreditAccountCommand received");
         if (!status.equals(AccountStatus.ACTIVATED)) throw new RuntimeException("Status is not ACTIVATED for the account : "+ command.getId());
@@ -88,4 +90,27 @@ public class AccountAggregate {
         this.balance = this.balance + event.getAmount();
     }
 
+    //debit
+    @CommandHandler
+    public void handle(DebitAccountCommand command) {
+        //fonction de decision
+        log.info("############3 DebitAccountCommand received");
+        if (!status.equals(AccountStatus.ACTIVATED)) throw new RuntimeException("Status is not ACTIVATED for the account : "+ command.getId());
+        if (balance<command.getAmount()) throw new RuntimeException("Balance must be greater than zero");
+        if (command.getAmount()<=0) throw new IllegalArgumentException("amount must be greater than zero");
+
+        AggregateLifecycle.apply(
+                new AccountDebitedEvent(
+                        command.getId(),
+                        command.getAmount(),
+                        command.getCurrency()
+                ));
+    }
+
+    @EventSourcingHandler
+    public void on(AccountDebitedEvent event) {
+        log.info("############3 AccountDebitedEvent occured");
+        this.accountId = event.getAccountId();
+        this.balance = this.balance - event.getAmount();
+    }
 }

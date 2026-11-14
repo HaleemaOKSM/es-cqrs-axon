@@ -38,3 +38,7 @@ test d'activation automatique
 test de credit
 ![img_14.png](img_14.png)
 ![img_15.png](img_15.png)
+
+test de debit
+![img_16.png](img_16.png)
+![img_17.png](img_17.png)
