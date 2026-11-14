@@ -68,4 +68,11 @@ public class AccountAggregate {
                 ));
     }
 
+    @EventSourcingHandler
+    public void on(AccountCreditedEvent event) {
+        log.info("############3 AccountCreditedEvent occured");
+        this.accountId = event.getAccountId();
+        this.balance = this.balance + event.getAmount();
+    }
+
 }
