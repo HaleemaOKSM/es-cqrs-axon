@@ -3,6 +3,7 @@ package halima.idouaksim.demoescqrsaxon.commande.aggregate;
 import halima.idouaksim.demoescqrsaxon.commande.commands.AddAccountCommand;
 import halima.idouaksim.demoescqrsaxon.commande.commands.CreditAccountCommand;
 import halima.idouaksim.demoescqrsaxon.enums.AccountStatus;
+import halima.idouaksim.demoescqrsaxon.events.AccountActivatedEvent;
 import halima.idouaksim.demoescqrsaxon.events.AccountCreatedEvent;
 import halima.idouaksim.demoescqrsaxon.events.AccountCreditedEvent;
 import lombok.extern.slf4j.Slf4j;
@@ -40,6 +41,11 @@ public class AccountAggregate {
                 AccountStatus.CREATED,
                 command.getCurrency()
         ));
+        AggregateLifecycle.apply(
+                new AccountActivatedEvent(
+                        command.getId(),
+                        AccountStatus.ACTIVATED
+                ));
     }
 
     @EventSourcingHandler
