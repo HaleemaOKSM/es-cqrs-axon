@@ -52,3 +52,11 @@ query side accountCreatedEvent recieved
 
 base de lecture accounts
 ![img_21.png](img_21.png)
+
+synchronization entre base de lecture et ecriture
+http://localhost:8081/query/accounts/all
+![img_22.png](img_22.png)
+
+Account statement
+![img_23.png](img_23.png)
+![img_24.png](img_24.png)
