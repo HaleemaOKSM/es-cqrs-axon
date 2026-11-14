@@ -42,3 +42,7 @@ test de credit
 test de debit
 ![img_16.png](img_16.png)
 ![img_17.png](img_17.png)
+
+test de changement de status
+![img_18.png](img_18.png)
+![img_19.png](img_19.png)

@@ -3,11 +3,9 @@ package halima.idouaksim.demoescqrsaxon.commande.aggregate;
 import halima.idouaksim.demoescqrsaxon.commande.commands.AddAccountCommand;
 import halima.idouaksim.demoescqrsaxon.commande.commands.CreditAccountCommand;
 import halima.idouaksim.demoescqrsaxon.commande.commands.DebitAccountCommand;
+import halima.idouaksim.demoescqrsaxon.commande.commands.UpdateAccountStatusCommand;
 import halima.idouaksim.demoescqrsaxon.enums.AccountStatus;
-import halima.idouaksim.demoescqrsaxon.events.AccountActivatedEvent;
-import halima.idouaksim.demoescqrsaxon.events.AccountCreatedEvent;
-import halima.idouaksim.demoescqrsaxon.events.AccountCreditedEvent;
-import halima.idouaksim.demoescqrsaxon.events.AccountDebitedEvent;
+import halima.idouaksim.demoescqrsaxon.events.*;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
@@ -112,5 +110,25 @@ public class AccountAggregate {
         log.info("############3 AccountDebitedEvent occured");
         this.accountId = event.getAccountId();
         this.balance = this.balance - event.getAmount();
+    }
+
+    //update status
+    @CommandHandler
+    public void handle(UpdateAccountStatusCommand command) {
+        //fonction de decision
+        log.info("############3 UpdateAccountStatusCommand received");
+        if (command.getStatus()==status) throw new RuntimeException("The account status is already " + status);
+        AggregateLifecycle.apply(
+                new AccountStatusUpdatedEvent(
+                        command.getId(),
+                        command.getStatus()
+                ));
+    }
+
+    @EventSourcingHandler
+    public void on(AccountStatusUpdatedEvent event) {
+        log.info("############3 AccountStatusUpdatedEvent occured");
+        this.accountId = event.getAccountId();
+        this.status = event.getStatus();
     }
 }

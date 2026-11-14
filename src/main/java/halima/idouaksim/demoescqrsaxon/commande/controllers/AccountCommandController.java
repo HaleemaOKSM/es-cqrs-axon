@@ -4,9 +4,11 @@ package halima.idouaksim.demoescqrsaxon.commande.controllers;
 import halima.idouaksim.demoescqrsaxon.commande.commands.AddAccountCommand;
 import halima.idouaksim.demoescqrsaxon.commande.commands.CreditAccountCommand;
 import halima.idouaksim.demoescqrsaxon.commande.commands.DebitAccountCommand;
+import halima.idouaksim.demoescqrsaxon.commande.commands.UpdateAccountStatusCommand;
 import halima.idouaksim.demoescqrsaxon.commande.dtos.AddNewAccountRequestDTO;
 import halima.idouaksim.demoescqrsaxon.commande.dtos.CreditAccountRequestDTO;
 import halima.idouaksim.demoescqrsaxon.commande.dtos.DebitAccountRequestDTO;
+import halima.idouaksim.demoescqrsaxon.commande.dtos.UpdateAccountStatusDTO;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +61,15 @@ public class AccountCommandController {
                 request.currency()
         ));
         return response;
+    }
+
+    @PutMapping("/updateStatus")
+    public CompletableFuture<String> updateStatus(@RequestBody UpdateAccountStatusDTO request){
+        CompletableFuture<String> result = this.commandGateway.send(new UpdateAccountStatusCommand(
+                request.accountId(),
+                request.status()
+        ));
+        return result;
     }
 
     @GetMapping("/events/{accountId}")
