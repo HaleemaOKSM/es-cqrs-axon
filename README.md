@@ -49,3 +49,6 @@ test de changement de status
 
 query side accountCreatedEvent recieved
 ![img_20.png](img_20.png)
+
+base de lecture accounts
+![img_21.png](img_21.png)
