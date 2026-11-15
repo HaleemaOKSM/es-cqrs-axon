@@ -9,6 +9,7 @@ import halima.idouaksim.demoescqrsaxon.query.repository.OperationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
 import org.axonframework.eventhandling.EventMessage;
+import org.axonframework.queryhandling.QueryUpdateEmitter;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,10 +17,12 @@ import org.springframework.stereotype.Component;
 public class AccountEventHandler {
     private AccountRepository accountRepository;
     private OperationRepository operationRepository;
+    private QueryUpdateEmitter queryUpdateEmitter;
 
-    public AccountEventHandler(AccountRepository accountRepository, OperationRepository operationRepository) {
+    public AccountEventHandler(AccountRepository accountRepository, OperationRepository operationRepository, QueryUpdateEmitter queryUpdateEmitter) {
         this.accountRepository = accountRepository;
         this.operationRepository = operationRepository;
+        this.queryUpdateEmitter = queryUpdateEmitter;
     }
     @EventHandler
     public void on(AccountCreatedEvent event, EventMessage eventMessage){
@@ -68,6 +71,7 @@ public class AccountEventHandler {
         operationRepository.save(accountOperation);
         account.setBalance(account.getBalance() - accountOperation.getAmount());
         accountRepository.save(account);
+        queryUpdateEmitter.emit(e->true, accountOperation);
     }
 
     @EventHandler
@@ -85,6 +89,8 @@ public class AccountEventHandler {
         operationRepository.save(accountOperation);
         account.setBalance(account.getBalance()+accountOperation.getAmount());
         accountRepository.save(account);
+        queryUpdateEmitter.emit(e->true, accountOperation);
+
     }
 
 }

@@ -60,3 +60,6 @@ http://localhost:8081/query/accounts/all
 Account statement
 ![img_23.png](img_23.png)
 ![img_24.png](img_24.png)
+
+watch test
+![img_25.png](img_25.png)
